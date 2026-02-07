@@ -1,0 +1,7 @@
+﻿services:
+  testassignment:
+    image: testassignment
+    build:
+      context: .
+      dockerfile: TestAssignment/Dockerfile
+
