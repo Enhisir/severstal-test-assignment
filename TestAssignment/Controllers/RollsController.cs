@@ -27,7 +27,7 @@ public class RollsController(IRollService service)
         [FromQuery] DateTime? dateRemoved)
         => await service.BulkGetAsync(id, minLength, maxLength, minWidth, maxWidth, dateAdded, dateRemoved);
 
-    [HttpDelete]
-    public async Task<ActionResult<Roll>> DeleteAsync([FromBody] RemoveRollDto dto)
-        => await service.DeleteAsync(dto);
+    [HttpDelete("{rollId}")]
+    public async Task<ActionResult<Roll>> DeleteAsync([FromRoute] Guid rollId)
+        => await service.DeleteAsync(rollId);
 }

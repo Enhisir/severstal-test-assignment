@@ -17,5 +17,5 @@ public interface IRollService
         DateTime? dateAdded,
         DateTime? dateRemoved);
 
-    public Task<ActionResult<Roll>> DeleteAsync(RemoveRollDto dto);
+    public Task<ActionResult<Roll>> DeleteAsync(Guid rollId);
 }

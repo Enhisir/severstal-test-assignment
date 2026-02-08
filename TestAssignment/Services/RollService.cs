@@ -32,14 +32,18 @@ public class RollService(
             DateAdded = DateTime.UtcNow
         };
 
-        if (!await repository.CreateAsync(roll))
+        var result = await repository.CreateAsync(roll);
+        if (result)
         {
-            logger.LogInformation("Error when trying to create new roll.");
-            return new BadRequestResult();
+            logger.LogInformation("Created new Roll(id={rollId}, dateAdded={dateAdded}).", roll.Id, roll.DateAdded);
+            return new OkObjectResult(roll);
         }
 
-        logger.LogInformation("Created new Roll(id={rollId}, dateAdded={dateAdded}).", roll.Id, roll.DateAdded);
-        return new OkObjectResult(roll);
+        logger.LogInformation("Error when trying to create new roll: {problemDetails}.", result.Error);
+        return new BadRequestObjectResult(new ProblemDetails()
+        {
+            Instance = result.Error
+        });
     }
 
     // Из ТЗ не очень понятно, надо ли показывать удаленные рулоны.
@@ -74,19 +78,24 @@ public class RollService(
                 .WhereIf(dateRemoved is not null, r => r.DateAdded == dateRemoved)
                 .ToListAsync());
 
-    public async Task<ActionResult<Roll>> DeleteAsync(RemoveRollDto dto)
+    public async Task<ActionResult<Roll>> DeleteAsync(Guid rollId)
     {
-        var roll = await repository.DeleteAsync(dto.Id);
+        var result = await repository.DeleteAsync(rollId);
 
-        if (roll is null)
-            return new NotFoundResult();
+        if (result)
+        {
+            var roll = result.Value;
+            logger.LogInformation(
+                "Deleted Roll(id={rollId}, dateAdded={dateAdded}, dateAdded={dateRemoved}).",
+                roll.Id,
+                roll.DateAdded,
+                roll.DateDeleted);
+            return new OkObjectResult(roll);
+        }
 
-        logger.LogInformation(
-            "Deleted Roll(id={rollId}, dateAdded={dateAdded}, dateAdded={dateRemoved}).",
-            roll.Id,
-            roll.DateAdded,
-            roll.DateDeleted);
-
-        return new OkObjectResult(roll);
+        return new BadRequestObjectResult(new ProblemDetails()
+        {
+            Instance = result.Error
+        });
     }
 }
