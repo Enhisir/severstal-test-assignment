@@ -51,13 +51,6 @@ public class RollService(
     // Так получилось, что у меня не было времени уточнить это у авторов задания
     // Но при получении такой таски этот момент надо было бы все-таки уточнить заранее
     // Рассматривается вариант решения, где удаленные рулоны показывать все же надо
-    /*
-    if (maybeEntity?.DateDeleted != null)
-    {
-        // log tried to get deleted
-        return null;
-    }
-    */
     public async Task<ActionResult<IEnumerable<Roll>>> BulkGetAsync(
         Guid? id,
         double? minLength,
