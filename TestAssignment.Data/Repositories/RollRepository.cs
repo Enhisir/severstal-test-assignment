@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using TestAssignment.Models.Database;
-using TestAssignment.Models.Models;
-using TestAssignment.Models.Utils;
+using TestAssignment.Common.Models;
+using TestAssignment.Common.Utils;
+using TestAssignment.Data.Database;
 
-namespace TestAssignment.Models.Repositories;
+namespace TestAssignment.Data.Repositories;
 
 public class RollRepository(
-    AppDbContext dbContext,
+    BaseDbContext dbContext,
     ILogger<RollRepository> logger)
     : IRollRepository
 {

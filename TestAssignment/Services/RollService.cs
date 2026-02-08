@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TestAssignment.Common.Models;
 using TestAssignment.Dtos;
 using TestAssignment.Extensions;
-using TestAssignment.Models.Models;
-using TestAssignment.Models.Repositories;
+using TestAssignment.Data.Repositories;
 using TestAssignment.Services.Abstractions;
 
 namespace TestAssignment.Services;

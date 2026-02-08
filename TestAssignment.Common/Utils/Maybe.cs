@@ -1,4 +1,4 @@
-namespace TestAssignment.Models.Utils;
+namespace TestAssignment.Common.Utils;
 
 public readonly struct Maybe<T>
 {

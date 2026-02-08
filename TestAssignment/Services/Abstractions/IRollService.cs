@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using TestAssignment.Common.Models;
 using TestAssignment.Dtos;
-using TestAssignment.Models.Models;
 
 namespace TestAssignment.Services.Abstractions;
 

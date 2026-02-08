@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TestAssignment.Models.Models;
+using TestAssignment.Common.Models;
 
 namespace TestAssignment.Services.Abstractions;
 

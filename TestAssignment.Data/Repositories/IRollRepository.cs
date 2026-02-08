@@ -1,7 +1,7 @@
-using TestAssignment.Models.Models;
-using TestAssignment.Models.Utils;
+using TestAssignment.Common.Models;
+using TestAssignment.Common.Utils;
 
-namespace TestAssignment.Models.Repositories;
+namespace TestAssignment.Data.Repositories;
 
 public interface IRollRepository
 {

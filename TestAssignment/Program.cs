@@ -1,26 +1,19 @@
-using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using TestAssignment.Models.Database;
-using TestAssignment.Models.Repositories;
-using TestAssignment.Services;
-using TestAssignment.Services.Abstractions;
+using TestAssignment.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddLogging()
-    .AddDbContext<AppDbContext>(options =>
-        options.UseInMemoryDatabase("TestAssignment")
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging(), 
-        ServiceLifetime.Singleton)
-    .AddScoped<IRollRepository, RollRepository>()
-    .AddScoped<IRollService, RollService>()
-    .AddScoped<IRollStatsService, RollStatsService>();
-builder.Services.AddOpenApi();
-builder.Services.AddControllers();
+    .AddOpenApi()
+    .AddDatabaseConfigured(builder.Configuration)
+    .AddExceptionHandling()
+    .AddServices()
+    .AddControllers();
 
 var app = builder.Build();
+
+app.UseExceptionHandling();
 
 if (app.Environment.IsDevelopment())
 {
@@ -29,7 +22,7 @@ if (app.Environment.IsDevelopment())
     {
         opt.Title = "Severstal Test Assignment";
         opt.Theme = ScalarTheme.Mars;
-        opt.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.Http11);
+        opt.DefaultHttpClient = new KeyValuePair<ScalarTarget, ScalarClient>(ScalarTarget.Http, ScalarClient.Http11);
     });
 }
 

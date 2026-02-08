@@ -1,4 +1,4 @@
-namespace TestAssignment.Models.Models;
+namespace TestAssignment.Common.Models;
 
 public class RollStats
 {
@@ -16,4 +16,6 @@ public class RollStats
     // максимальный промежуток между добавлением и удалением рулона
     public int MaxGap { get; set; }
 
+    
+    public static RollStats Empty => new();
 }

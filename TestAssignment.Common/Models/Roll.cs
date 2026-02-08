@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TestAssignment.Models.Models;
+namespace TestAssignment.Common.Models;
 
 public class Roll
 {
@@ -15,7 +15,7 @@ public class Roll
     public double Weight { get; init; }
 
     [Required]
-    public DateTime DateAdded { get; init; }
+    public DateTime DateAdded { get; init; } = DateTime.UtcNow;
     
     public DateTime? DateDeleted { get; set; }
 }

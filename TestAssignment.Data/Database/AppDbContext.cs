@@ -1,22 +1,31 @@
 using Microsoft.EntityFrameworkCore;
-using TestAssignment.Models.Models;
+using TestAssignment.Common.Models;
 
-namespace TestAssignment.Models.Database;
+namespace TestAssignment.Data.Database;
 
-public sealed class AppDbContext : DbContext
+public sealed class AppDbContext(
+    DbContextOptions<AppDbContext> options)
+    : BaseDbContext(options)
 {
-    public DbSet<Roll> Rolls { get; set; } = null!;
-    
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .Entity<Roll>().HasData(
+        modelBuilder.Entity<Roll>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.DateAdded)
+                .IsRequired()
+                .HasDefaultValueSql("TIMEZONE('utc', now())")
+                .HasConversion(
+                    v => v.ToUniversalTime(),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+            entity.Property(e => e.DateDeleted)
+                .HasConversion(
+                    v => v.HasValue ? v.Value.ToUniversalTime() : v,
+                    v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
+
+            entity.HasData(
                 new Roll
                 {
                     Id = new Guid("689f7f26-8cfc-4d58-81ed-6200a43b0813"),
@@ -38,5 +47,6 @@ public sealed class AppDbContext : DbContext
                     Weight = 200,
                     DateAdded = new DateTime(2026, 1, 3)
                 });
+        });
     }
 }
