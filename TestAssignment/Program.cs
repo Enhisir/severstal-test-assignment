@@ -10,9 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddLogging()
     .AddDbContext<AppDbContext>(options =>
-        options.UseInMemoryDatabase("TestAssignment"), ServiceLifetime.Singleton)
+        options.UseInMemoryDatabase("TestAssignment")
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging(), 
+        ServiceLifetime.Singleton)
     .AddScoped<IRollRepository, RollRepository>()
-    .AddScoped<IRollService, RollService>();
+    .AddScoped<IRollService, RollService>()
+    .AddScoped<IRollStatsService, RollStatsService>();
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
