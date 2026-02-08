@@ -3,7 +3,7 @@
 
 ##### Сборка
 ```shell
-$ docker compose build
+docker compose build
 ```
 ##### Запуск
 ```shell
